@@ -1,0 +1,35 @@
+import dotenv from 'dotenv';
+import express, { Application } from 'express';
+import mongoose, { ConnectOptions } from 'mongoose';
+
+dotenv.config();
+
+class App {
+    public app: Application;
+
+    constructor() {
+        this.app = express();
+
+        App.database();
+        this.middlewares();
+        this.routes();
+    }
+
+    private static database() {
+        mongoose.connect(
+            process.env.MONGODB_URL || 'mongodb://database:27017/cashflowr',
+            { useNewUrlParser: true } as ConnectOptions,
+        );
+    }
+
+    private middlewares() {
+        this.app.use(express.json());
+    }
+
+    private routes() {
+        this.app.get('/health', (_req, res) => res.status(200).json({ message: 'OK' }));
+    }
+
+}
+
+export default App;
