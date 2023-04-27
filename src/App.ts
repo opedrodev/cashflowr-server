@@ -1,11 +1,12 @@
 import dotenv from 'dotenv';
 import express, { Application } from 'express';
 import mongoose, { ConnectOptions } from 'mongoose';
+import AuthRouter from './routes/AuthRouter';
 
 dotenv.config();
 
 class App {
-    public app: Application;
+    public readonly app: Application;
 
     constructor() {
         this.app = express();
@@ -28,6 +29,7 @@ class App {
 
     private routes() {
         this.app.get('/health', (_req, res) => res.status(200).json({ message: 'OK' }));
+        this.app.use('/auth', new AuthRouter().getRoutes());
     }
 
 }

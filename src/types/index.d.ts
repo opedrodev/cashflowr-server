@@ -16,5 +16,5 @@ export type TUser = {
     name: string;
     email: string;
     password: string;
-    wallet: TWallet;
+    wallet?: TWallet;
 };
