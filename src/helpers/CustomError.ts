@@ -1,0 +1,12 @@
+class CustomError extends Error {
+    public readonly message: string;
+    public readonly status: number;
+
+    constructor(message: string, status: number) {
+        super(message);
+        this.message = message;
+        this.status = status;
+    }
+}
+
+export default CustomError;
