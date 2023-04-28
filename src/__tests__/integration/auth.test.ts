@@ -104,7 +104,7 @@ describe('Auth', () => {
             const res = await chai
                 .request(app)
                 .post('/auth/signin')
-                .send(AuthMocks.USER);
+                .send(AuthMocks.SIGNIN_BODY);
 
             expect(res.status).to.equal(404);
             expect(res.body).to.be.an('object');
