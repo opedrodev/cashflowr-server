@@ -9,7 +9,7 @@ class AuthController {
             await AuthService.signUp(req.body);
             return res.status(201).json({ message: 'User created successfully' });
         } catch (error) {
-            return ErrorHandler.handle(res, error, 409);
+            return ErrorHandler.handle(res, error);
         }
     }
 

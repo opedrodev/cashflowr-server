@@ -4,7 +4,7 @@ import CustomError from './CustomError';
 
 class ErrorHandler {
 
-    public static handle(res: Response, error: unknown, statusCode?: number) {
+    public static handle(res: Response, error: unknown) {
         if (error instanceof ZodError) {
             const { message } = error.errors[0];
             return res.status(422).json({ message });
@@ -13,11 +13,6 @@ class ErrorHandler {
         if (error instanceof CustomError) {
             const { message, status } = error as CustomError;
             return res.status(status).json({ message });
-        }
-
-        if (error instanceof Error) {
-            const { message } = error;
-            return res.status(statusCode || 400).json({ message });
         }
 
         return res.status(500).json({ message: 'Internal server error' });
