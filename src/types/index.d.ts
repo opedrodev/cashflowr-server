@@ -18,3 +18,9 @@ export type TUser = {
     password: string;
     wallet?: TWallet;
 };
+
+export type TSignIn = {
+    email: string;
+    password: string;
+    rememberMe: boolean;
+};

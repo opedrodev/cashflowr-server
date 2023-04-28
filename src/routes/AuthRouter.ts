@@ -16,6 +16,12 @@ class AuthRouter {
             AuthMiddleware.signUpCredentials,
             AuthController.signUp,
         );
+
+        this.router.post(
+            '/signin',
+            AuthMiddleware.signInCredentials,
+            AuthController.signIn,
+        );
     }
 
     public getRoutes() {

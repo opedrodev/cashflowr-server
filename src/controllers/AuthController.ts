@@ -13,6 +13,15 @@ class AuthController {
         }
     }
 
+    public static async signIn(req: Request, res: Response) {
+        try {
+            const token = await AuthService.signIn(req.body);
+            return res.status(200).json({ token });
+        } catch (error) {
+            return ErrorHandler.handle(res, error);
+        }
+    }
+
 }
 
 export default AuthController;
