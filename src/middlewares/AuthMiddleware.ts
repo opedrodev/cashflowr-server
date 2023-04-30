@@ -10,7 +10,7 @@ class AuthMiddleware {
             name: z.string().min(3, ErrorType.NAME_MIN_LENGTH),
             email: z.string().email(ErrorType.EMAIL_INVALID_FORMAT),
             password: z.string().min(6, ErrorType.PASSWORD_MIN_LENGTH),
-        });
+        }).strict();
 
         try {
             schema.parse(req.body);
@@ -24,7 +24,7 @@ class AuthMiddleware {
         const schema = z.object({
             email: z.string().email(ErrorType.EMAIL_INVALID_FORMAT),
             password: z.string().min(6, ErrorType.PASSWORD_MIN_LENGTH),
-        });
+        }).strict();
 
         try {
             schema.parse(req.body);
