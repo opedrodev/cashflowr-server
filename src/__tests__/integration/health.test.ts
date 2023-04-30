@@ -8,7 +8,7 @@ const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('Health', () => {
-    describe('`GET /health`', () => {
+    describe('GET /health', () => {
         it('should return OK', async () => {
             const res = await chai.request(app).get('/health');
 

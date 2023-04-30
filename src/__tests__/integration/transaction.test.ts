@@ -82,7 +82,7 @@ describe('Transaction', () => {
             expect(res.body.message).to.be.equal('User not found');
         });
 
-        it('should throw an if called with invalid data', async () => {
+        it('should throw an error if called with invalid data', async () => {
             sinon.stub(Model, 'findByIdAndUpdate').resolves(null);
 
             const res = await chai
