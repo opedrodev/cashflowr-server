@@ -5,12 +5,10 @@ import { TTransaction, TUser } from '../types';
 
 class TransactionService {
     public static async getTransactions(id: string) {
-        try {
-            const { wallet: { transactions } } = await UserModel.findById(id) as TUser;
-            return transactions;
-        } catch (error) {
-            throw new CustomError('User not found', 404);
-        }
+        const user = await UserModel.findById(id);
+        if (!user) throw new CustomError('User not found', 404);
+        const { wallet: { transactions } } = user as TUser;
+        return transactions;
     }
 
     public static async createTransaction(id: string, transaction: TTransaction) {
