@@ -23,7 +23,6 @@
     "rules": {
         "@typescript-eslint/lines-between-class-members": "off",
         "no-underscore-dangle": "off",
-        "padded-blocks": "off",
         "@typescript-eslint/indent": ["error", 4],
         "indent": ["error", 4]
     }

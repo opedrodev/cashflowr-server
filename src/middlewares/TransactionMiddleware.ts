@@ -4,7 +4,6 @@ import ErrorHandler from '../helpers/ErrorHandler';
 import ErrorType from '../helpers/ErrorType';
 
 class TransactionMiddleware {
-
     public static async validateFormat(req: Request, res: Response, next: NextFunction) {
         const schema = z.object({
             type: z.enum(['income', 'outcome']),
@@ -20,7 +19,6 @@ class TransactionMiddleware {
             return ErrorHandler.handle(res, error);
         }
     }
-
 }
 
 export default TransactionMiddleware;

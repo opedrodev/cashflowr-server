@@ -7,7 +7,6 @@ import ErrorHandler from '../../helpers/ErrorHandler';
 const { expect } = chai;
 
 describe('ErrorHandler', () => {
-
     describe('handle', () => {
         it('should handle an unknown error', () => {
             const error = new Error('UnknownError');
@@ -22,5 +21,4 @@ describe('ErrorHandler', () => {
             ErrorHandler.handle(res, error);
         });
     });
-
 });

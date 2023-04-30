@@ -27,7 +27,6 @@ class AuthRouter {
     public getRoutes() {
         return this.router;
     }
-
 }
 
 export default AuthRouter;

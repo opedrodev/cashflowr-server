@@ -33,7 +33,6 @@ class App {
         this.app.use('/auth', new AuthRouter().getRoutes());
         this.app.use('/transactions', new TransactionRouter().getRoutes());
     }
-
 }
 
 export default App;

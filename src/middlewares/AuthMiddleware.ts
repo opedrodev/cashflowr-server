@@ -4,7 +4,6 @@ import ErrorHandler from '../helpers/ErrorHandler';
 import ErrorType from '../helpers/ErrorType';
 
 class AuthMiddleware {
-
     public static async signUpCredentials(req: Request, res: Response, next: NextFunction) {
         const schema = z.object({
             name: z.string().min(3, ErrorType.NAME_MIN_LENGTH),

@@ -3,7 +3,6 @@ import ErrorHandler from '../helpers/ErrorHandler';
 import TransactionService from '../services/TransactionService';
 
 class TransactionController {
-
     public static async getTransactions(req: Request, res: Response) {
         try {
             const { id } = req.params;
@@ -24,7 +23,6 @@ class TransactionController {
             ErrorHandler.handle(res, error);
         }
     }
-
 }
 
 export default TransactionController;

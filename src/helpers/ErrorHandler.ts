@@ -3,7 +3,6 @@ import { ZodError } from 'zod';
 import CustomError from './CustomError';
 
 class ErrorHandler {
-
     public static handle(res: Response, error: unknown) {
         if (error instanceof ZodError) {
             const { message } = error.errors[0];
@@ -17,7 +16,6 @@ class ErrorHandler {
 
         return res.status(500).json({ message: 'Internal server error' });
     }
-
 }
 
 export default ErrorHandler;

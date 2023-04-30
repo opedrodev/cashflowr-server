@@ -5,7 +5,6 @@ import UserModel from '../models/UserModel';
 import { TSignIn, TUser } from '../types';
 
 class AuthService {
-
     public static async signUp(user: TUser) {
         await this.checkIfUserAlreadyExists(user.email);
         const { password, ...info } = user;
@@ -33,7 +32,6 @@ class AuthService {
         const passwordMatch = Password.compare(password, hashedPassword);
         if (!passwordMatch) throw new CustomError('Invalid credentials', 401);
     }
-
 }
 
 export default AuthService;

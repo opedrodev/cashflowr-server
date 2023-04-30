@@ -5,7 +5,6 @@ import Password from '../../helpers/Password';
 const { expect } = chai;
 
 describe('Password', () => {
-
     describe('hash', () => {
         it('should hash a password', () => {
             const password = 'password';
@@ -22,5 +21,4 @@ describe('Password', () => {
             expect(isMatch).to.equal(true);
         });
     });
-
 });

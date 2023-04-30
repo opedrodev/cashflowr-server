@@ -4,7 +4,6 @@ import UserModel from '../models/UserModel';
 import { TTransaction, TUser } from '../types';
 
 class TransactionService {
-
     public static async getTransactions(id: string) {
         try {
             const { wallet: { transactions } } = await UserModel.findById(id) as TUser;
@@ -30,7 +29,6 @@ class TransactionService {
 
         if (!user) throw new CustomError('User not found', 404);
     }
-
 }
 
 export default TransactionService;

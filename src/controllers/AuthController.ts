@@ -3,7 +3,6 @@ import ErrorHandler from '../helpers/ErrorHandler';
 import AuthService from '../services/AuthService';
 
 class AuthController {
-
     public static async signUp(req: Request, res: Response) {
         try {
             await AuthService.signUp(req.body);
@@ -21,7 +20,6 @@ class AuthController {
             return ErrorHandler.handle(res, error);
         }
     }
-
 }
 
 export default AuthController;
