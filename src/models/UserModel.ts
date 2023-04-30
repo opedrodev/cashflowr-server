@@ -20,11 +20,19 @@ class UserModel {
                 type: String,
                 required: true,
             },
-            wallet: Object,
+            wallet: {
+                type: Object,
+                default: {
+                    balance: 0,
+                    income: 0,
+                    outcome: 0,
+                    transactions: [],
+                },
+            },
         }, { timestamps: true });
 
         this.model = model<TUser>('User', schema);
     }
 }
 
-export default new UserModel().model;
+export default new UserModel().model as Model<TUser>;

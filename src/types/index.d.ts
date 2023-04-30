@@ -1,4 +1,8 @@
-export type TExpense = {
+export type TTransactionType = 'income' | 'outcome';
+
+export type TTransaction = {
+    id?: string,
+    type: TTransactionType;
     description: string;
     category: string;
     value: number;
@@ -9,14 +13,14 @@ export type TWallet = {
     balance: number;
     income: number;
     outcome: number;
-    expenses: TExpense[];
+    transactions: TTransaction[];
 };
 
 export type TUser = {
     name: string;
     email: string;
     password: string;
-    wallet?: TWallet;
+    wallet: TWallet;
 };
 
 export type TSignIn = {
