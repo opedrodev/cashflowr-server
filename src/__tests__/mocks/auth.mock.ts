@@ -1,24 +1,22 @@
-import { TUser } from '../../types';
-
-const USER: TUser = {
+const USER = {
     name: 'User Testing',
     email: 'user@testing.com',
     password: 'testing_password',
 };
 
-const USER_SHORT_NAME: TUser = {
+const USER_SHORT_NAME = {
     name: 'Us',
     email: 'user@testing.com',
     password: 'testing_password',
 };
 
-const USER_INVALID_EMAIL: TUser = {
+const USER_INVALID_EMAIL = {
     name: 'User Testing',
     email: 'invalid_email',
     password: 'testing_password',
 };
 
-const USER_SHORT_PASSWORD: TUser = {
+const USER_SHORT_PASSWORD = {
     name: 'User Testing',
     email: 'user@testing.com',
     password: '123',
