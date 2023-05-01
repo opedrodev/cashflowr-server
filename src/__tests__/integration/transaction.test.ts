@@ -2,6 +2,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import sinon from 'sinon';
 
+import jwt from 'jsonwebtoken';
 import { Model } from 'mongoose';
 import App from '../../App';
 import TransactionMocks from '../mocks/transaction.mock';
@@ -11,7 +12,8 @@ const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('Transaction', () => {
-    describe('GET /transactions/:id', () => {
+    describe('GET /transactions', () => {
+        beforeEach(() => sinon.stub(jwt, 'verify').resolves({ id: '123' }));
         afterEach(() => sinon.restore());
 
         it('should return all transactions from a user', async () => {
@@ -19,7 +21,8 @@ describe('Transaction', () => {
 
             const res = await chai
                 .request(app)
-                .get('/transactions/123');
+                .get('/transactions')
+                .set('Authorization', '123');
 
             expect(res.status).to.equal(200);
             expect(res.body).to.be.an('array');
@@ -32,15 +35,41 @@ describe('Transaction', () => {
 
             const res = await chai
                 .request(app)
-                .get('/transactions/123');
+                .get('/transactions')
+                .set('Authorization', '123');
 
             expect(res.status).to.equal(404);
             expect(res.body).to.have.property('message');
             expect(res.body.message).to.be.equal('User not found');
         });
+
+        it('should throw an error if token is not provided', async () => {
+            const res = await chai
+                .request(app)
+                .get('/transactions');
+
+            expect(res.status).to.equal(404);
+            expect(res.body).to.have.property('message');
+            expect(res.body.message).to.be.equal('Token not found');
+        });
+
+        it('should throw an error if token is invalid', async () => {
+            sinon.restore();
+            sinon.stub(jwt, 'verify').throws();
+
+            const res = await chai
+                .request(app)
+                .get('/transactions')
+                .set('Authorization', '123');
+
+            expect(res.status).to.equal(401);
+            expect(res.body).to.have.property('message');
+            expect(res.body.message).to.be.equal('Invalid token');
+        });
     });
 
-    describe('POST /transactions/:id', () => {
+    describe('POST /transactions', () => {
+        beforeEach(() => sinon.stub(jwt, 'verify').resolves({ id: '123' }));
         afterEach(() => sinon.restore());
 
         it('should create a new income transaction', async () => {
@@ -48,8 +77,9 @@ describe('Transaction', () => {
 
             const res = await chai
                 .request(app)
-                .post('/transactions/123')
-                .send(TransactionMocks.TRANSACTION_INCOME);
+                .post('/transactions')
+                .send(TransactionMocks.TRANSACTION_INCOME)
+                .set('Authorization', '123');
 
             expect(res.status).to.equal(201);
             expect(res.body).to.have.property('message');
@@ -61,8 +91,9 @@ describe('Transaction', () => {
 
             const res = await chai
                 .request(app)
-                .post('/transactions/123')
-                .send(TransactionMocks.TRANSACTION_OUTCOME);
+                .post('/transactions')
+                .send(TransactionMocks.TRANSACTION_OUTCOME)
+                .set('Authorization', '123');
 
             expect(res.status).to.equal(201);
             expect(res.body).to.have.property('message');
@@ -74,8 +105,9 @@ describe('Transaction', () => {
 
             const res = await chai
                 .request(app)
-                .post('/transactions/123')
-                .send(TransactionMocks.TRANSACTION_OUTCOME);
+                .post('/transactions')
+                .send(TransactionMocks.TRANSACTION_OUTCOME)
+                .set('Authorization', '123');
 
             expect(res.status).to.equal(404);
             expect(res.body).to.have.property('message');
@@ -87,11 +119,36 @@ describe('Transaction', () => {
 
             const res = await chai
                 .request(app)
-                .post('/transactions/123')
-                .send(TransactionMocks.INVALID_TRANSACTION);
+                .post('/transactions')
+                .send(TransactionMocks.INVALID_TRANSACTION)
+                .set('Authorization', '123');
 
             expect(res.status).to.equal(422);
             expect(res.body).to.have.property('message');
+        });
+
+        it('should throw an error if token is not provided', async () => {
+            const res = await chai
+                .request(app)
+                .get('/transactions');
+
+            expect(res.status).to.equal(404);
+            expect(res.body).to.have.property('message');
+            expect(res.body.message).to.be.equal('Token not found');
+        });
+
+        it('should throw an error if token is invalid', async () => {
+            sinon.restore();
+            sinon.stub(jwt, 'verify').throws();
+
+            const res = await chai
+                .request(app)
+                .get('/transactions')
+                .set('Authorization', '123');
+
+            expect(res.status).to.equal(401);
+            expect(res.body).to.have.property('message');
+            expect(res.body.message).to.be.equal('Invalid token');
         });
     });
 });
