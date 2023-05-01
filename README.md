@@ -10,7 +10,7 @@ All requests to the Cashflowr Server API require authentication. Authentication 
 
 To obtain a JWT token, clients must first authenticate using their username and password. The token should be included in the **Authorization** header of all subsequent requests.
 
-All requests that require authentication will return a **401 Unauthorized** response if the Authorization header is missing or the token is invalid.
+All requests that require authentication will return a **404 Not found** response if the Authorization header is missing or **401 Unauthorized** if the token is invalid.
 
 <br />
 <br />
