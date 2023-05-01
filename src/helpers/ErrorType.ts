@@ -6,6 +6,8 @@ const enum ErrorType {
     DESCRIPTION_MIN_LENGTH = 'Description must have at least 3 characters',
     CATEGORY_MIN_LENGTH = 'Category must have at least 3 characters',
     MIN_VALUE = 'Value must be greater than 0.00',
+    INVALID_TOKEN = 'Invalid token',
+    TOKEN_NOT_FOUND = 'Token not found',
 }
 
 export default ErrorType;

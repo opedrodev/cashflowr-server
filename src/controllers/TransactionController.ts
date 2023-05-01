@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
 import ErrorHandler from '../helpers/ErrorHandler';
 import TransactionService from '../services/TransactionService';
+import { TUserId } from '../types';
 
 class TransactionController {
     public static async getTransactions(req: Request, res: Response) {
         try {
-            const { id } = req.params;
-            const transactions = await TransactionService.getTransactions(id);
+            const { userId } = req.headers as TUserId;
+            const transactions = await TransactionService.getTransactions(userId);
             res.status(200).json(transactions);
         } catch (error) {
             ErrorHandler.handle(res, error);
@@ -15,9 +16,9 @@ class TransactionController {
 
     public static async createTransaction(req: Request, res: Response) {
         try {
-            const { id } = req.params;
+            const { userId } = req.headers as TUserId;
             const transaction = req.body;
-            await TransactionService.createTransaction(id, transaction);
+            await TransactionService.createTransaction(userId, transaction);
             res.status(201).json({ message: 'Transaction created successfully' });
         } catch (error) {
             ErrorHandler.handle(res, error);

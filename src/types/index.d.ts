@@ -28,3 +28,7 @@ export type TSignIn = {
     password: string;
     rememberMe: boolean;
 };
+
+export type TUserId = {
+    userId: string;
+};
