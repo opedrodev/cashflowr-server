@@ -24,6 +24,12 @@ class TransactionRouter {
             TransactionMiddleware.validateFormat,
             TransactionController.createTransaction,
         );
+
+        this.router.delete(
+            '/:id',
+            TokenMiddleware.validate,
+            TransactionController.deleteTransaction,
+        );
     }
 
     public getRoutes(): Router {

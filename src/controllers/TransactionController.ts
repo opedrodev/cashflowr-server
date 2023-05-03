@@ -24,6 +24,17 @@ class TransactionController {
             ErrorHandler.handle(res, error);
         }
     }
+
+    public static async deleteTransaction(req: Request, res: Response) {
+        try {
+            const { userId } = req.headers as TUserId;
+            const { id: transactionId } = req.params;
+            await TransactionService.deleteTransaction(userId, transactionId);
+            res.status(200).json({ message: 'Transaction deleted successfully' });
+        } catch (error) {
+            ErrorHandler.handle(res, error);
+        }
+    }
 }
 
 export default TransactionController;
