@@ -151,4 +151,53 @@ describe('Transaction', () => {
             expect(res.body.message).to.be.equal('Invalid token');
         });
     });
+
+    describe('DELETE /transactions/:id', () => {
+        beforeEach(() => sinon.stub(jwt, 'verify').resolves({ id: '123' }));
+        afterEach(() => sinon.restore());
+
+        it('should throw an error when transaction not found', async () => {
+            sinon.stub(Model, 'findById').resolves(TransactionMocks.USER);
+            sinon.stub(Array.prototype, 'findIndex').returns(-1);
+            const { transactions } = TransactionMocks.USER.wallet;
+
+            const res = await chai
+                .request(app)
+                .delete('/transactions/124')
+                .set('Authorization', '123');
+
+            expect(res.status).to.equal(404);
+            expect(res.body).to.have.property('message');
+            expect(res.body.message).to.be.equal('Transaction not found');
+            expect(transactions).to.have.lengthOf(1);
+        });
+
+        it('should throw an error when user not found', async () => {
+            sinon.stub(Model, 'findById').resolves(null);
+
+            const res = await chai
+                .request(app)
+                .delete('/transactions/123')
+                .set('Authorization', '123');
+
+            expect(res.status).to.equal(404);
+            expect(res.body).to.have.property('message');
+            expect(res.body.message).to.be.equal('User not found');
+        });
+
+        it('should delete a transaction', async () => {
+            sinon.stub(Model, 'findById').resolves(TransactionMocks.USER);
+            const { transactions } = TransactionMocks.USER.wallet;
+
+            const res = await chai
+                .request(app)
+                .delete('/transactions/123')
+                .set('Authorization', '123');
+
+            expect(res.status).to.equal(200);
+            expect(res.body).to.have.property('message');
+            expect(res.body.message).to.be.equal('Transaction deleted successfully');
+            expect(transactions).to.have.lengthOf(0);
+        });
+    });
 });

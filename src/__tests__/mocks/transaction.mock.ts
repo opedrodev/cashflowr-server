@@ -14,6 +14,8 @@ const USER = {
             },
         ],
     },
+    save: () => {},
+    markModified: () => {},
 };
 
 const TRANSACTION = {
