@@ -46,9 +46,7 @@ class TransactionService {
         const user = await this.findUserById(userId);
         const transactionIndex = this.findTransactionIndexById(transactionId, user.wallet);
         user.wallet.transactions[transactionIndex] = {
-            id: transactionId,
-            ...transaction,
-            date: new Date(),
+            id: transactionId, ...transaction, date: new Date(),
         };
         user.markModified('wallet.transactions');
         await user.save();
