@@ -127,3 +127,18 @@ If successful, the server will respond with a status code of **201** and a JSON 
   "message": "Transaction created successfully"
 }
 ```
+
+<br />
+
+### `DELETE /transactions/id`
+Delete a transaction for the authenticated user. The request must include a valid access token in the Authorization header.
+
+Make sure that
+  - `id` is the transaction's id
+
+If successful, the server will respond with a status code of **200** and a JSON object containing a message. The response will have the following format:
+```json
+{
+  "message": "Transaction deleted successfully"
+}
+```
