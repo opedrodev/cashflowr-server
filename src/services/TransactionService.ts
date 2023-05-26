@@ -38,6 +38,23 @@ class TransactionService {
         await Wallet.update(userId);
     }
 
+    public static async updateTransaction(
+        userId: string,
+        transactionId: string,
+        transaction: TTransaction,
+    ) {
+        const user = await this.findUserById(userId);
+        const transactionIndex = this.findTransactionIndexById(transactionId, user.wallet);
+        user.wallet.transactions[transactionIndex] = {
+            id: transactionId,
+            ...transaction,
+            date: new Date(),
+        };
+        user.markModified('wallet.transactions');
+        await user.save();
+        await Wallet.update(userId);
+    }
+
     private static async findUserById(id: string) {
         const user = await UserModel.findById(id);
         if (!user) throw new CustomError('User not found', 404);

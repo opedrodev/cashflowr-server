@@ -35,6 +35,18 @@ class TransactionController {
             ErrorHandler.handle(res, error);
         }
     }
+
+    public static async updateTransaction(req: Request, res: Response) {
+        try {
+            const { userId } = req.headers as TUserId;
+            const transaction = req.body;
+            const { id: transactionId } = req.params;
+            await TransactionService.updateTransaction(userId, transactionId, transaction);
+            res.status(200).json({ message: 'Transaction updated successfully' });
+        } catch (error) {
+            ErrorHandler.handle(res, error);
+        }
+    }
 }
 
 export default TransactionController;
