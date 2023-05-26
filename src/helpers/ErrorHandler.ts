@@ -5,7 +5,7 @@ import CustomError from './CustomError';
 class ErrorHandler {
     public static handle(res: Response, error: unknown) {
         if (error instanceof ZodError) {
-            const { message } = error.errors[0];
+            const message = error.errors.at(-1)?.message;
             return res.status(422).json({ message });
         }
 
