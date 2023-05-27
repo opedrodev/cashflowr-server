@@ -48,12 +48,20 @@ const INVALID_TRANSACTION = {
     value: 1200,
 };
 
+const UPDATE_TRANSACTION = {
+    type: 'income',
+    description: 'Salary',
+    category: 'Work',
+    value: 1200,
+};
+
 const TransactionMocks = {
     USER,
     TRANSACTION,
     TRANSACTION_INCOME,
     TRANSACTION_OUTCOME,
     INVALID_TRANSACTION,
+    UPDATE_TRANSACTION,
 };
 
 export default TransactionMocks;

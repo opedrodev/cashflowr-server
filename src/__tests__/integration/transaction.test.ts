@@ -200,4 +200,55 @@ describe('Transaction', () => {
             expect(transactions).to.have.lengthOf(0);
         });
     });
+
+    describe('PUT /transactions/:id', () => {
+        beforeEach(() => sinon.stub(jwt, 'verify').resolves({ id: '123' }));
+        afterEach(() => sinon.restore());
+
+        it('should throw an error when transaction not found', async () => {
+            sinon.stub(Model, 'findById').resolves(TransactionMocks.USER);
+            sinon.stub(Array.prototype, 'findIndex').returns(-1);
+
+            const res = await chai
+                .request(app)
+                .put('/transactions/124')
+                .send(TransactionMocks.UPDATE_TRANSACTION)
+                .set('Authorization', '123');
+
+            expect(res.status).to.equal(404);
+            expect(res.body).to.have.property('message');
+            expect(res.body.message).to.be.equal('Transaction not found');
+        });
+
+        it('should throw an error when user not found', async () => {
+            sinon.stub(Model, 'findById').resolves(null);
+
+            const res = await chai
+                .request(app)
+                .put('/transactions/123')
+                .send(TransactionMocks.UPDATE_TRANSACTION)
+                .set('Authorization', '123');
+
+            expect(res.status).to.equal(404);
+            expect(res.body).to.have.property('message');
+            expect(res.body.message).to.be.equal('User not found');
+        });
+
+        it('should update a transaction', async () => {
+            sinon.stub(Model, 'findById').resolves(TransactionMocks.USER);
+            sinon.stub(Array.prototype, 'findIndex').returns(0);
+            const { transactions } = TransactionMocks.USER.wallet;
+
+            const res = await chai
+                .request(app)
+                .put('/transactions/123')
+                .send(TransactionMocks.UPDATE_TRANSACTION)
+                .set('Authorization', '123');
+
+            expect(res.status).to.equal(200);
+            expect(res.body).to.have.property('message');
+            expect(res.body.message).to.be.equal('Transaction updated successfully');
+            expect(transactions).to.have.lengthOf(1);
+        });
+    });
 });
