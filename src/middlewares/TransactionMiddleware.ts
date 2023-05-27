@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { z } from 'zod';
-import ErrorHandler from '../helpers/ErrorHandler';
+import { ZodError, ZodIssue, z } from 'zod';
 import ErrorType from '../helpers/ErrorType';
 
 class TransactionMiddleware {
@@ -16,7 +15,8 @@ class TransactionMiddleware {
             schema.parse(req.body);
             return next();
         } catch (error) {
-            return ErrorHandler.handle(res, error);
+            const { message } = (error as ZodError).errors.at(-1) as ZodIssue;
+            return res.status(422).json({ message });
         }
     }
 }
