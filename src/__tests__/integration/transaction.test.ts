@@ -73,7 +73,7 @@ describe('Transaction', () => {
         afterEach(() => sinon.restore());
 
         it('should create a new income transaction', async () => {
-            sinon.stub(Model, 'findByIdAndUpdate').resolves(TransactionMocks.USER);
+            sinon.stub(Model, 'findById').resolves(TransactionMocks.USER);
 
             const res = await chai
                 .request(app)
@@ -87,7 +87,7 @@ describe('Transaction', () => {
         });
 
         it('should create a new outcome transaction', async () => {
-            sinon.stub(Model, 'findByIdAndUpdate').resolves(TransactionMocks.USER);
+            sinon.stub(Model, 'findById').resolves(TransactionMocks.USER);
 
             const res = await chai
                 .request(app)
@@ -101,7 +101,7 @@ describe('Transaction', () => {
         });
 
         it('should throw an error when user not found', async () => {
-            sinon.stub(Model, 'findByIdAndUpdate').resolves(null);
+            sinon.stub(Model, 'findById').resolves(null);
 
             const res = await chai
                 .request(app)
@@ -115,7 +115,7 @@ describe('Transaction', () => {
         });
 
         it('should throw an error if called with invalid data', async () => {
-            sinon.stub(Model, 'findByIdAndUpdate').resolves(null);
+            sinon.stub(Model, 'findById').resolves(null);
 
             const res = await chai
                 .request(app)
@@ -159,17 +159,18 @@ describe('Transaction', () => {
         it('should throw an error when transaction not found', async () => {
             sinon.stub(Model, 'findById').resolves(TransactionMocks.USER);
             sinon.stub(Array.prototype, 'findIndex').returns(-1);
-            const { transactions } = TransactionMocks.USER.wallet;
 
             const res = await chai
                 .request(app)
                 .delete('/transactions/124')
                 .set('Authorization', '123');
 
+            const { transactions } = TransactionMocks.USER.wallet;
+
             expect(res.status).to.equal(404);
             expect(res.body).to.have.property('message');
             expect(res.body.message).to.be.equal('Transaction not found');
-            expect(transactions).to.have.lengthOf(1);
+            expect(transactions).to.have.lengthOf(3);
         });
 
         it('should throw an error when user not found', async () => {
@@ -187,17 +188,18 @@ describe('Transaction', () => {
 
         it('should delete a transaction', async () => {
             sinon.stub(Model, 'findById').resolves(TransactionMocks.USER);
-            const { transactions } = TransactionMocks.USER.wallet;
 
             const res = await chai
                 .request(app)
                 .delete('/transactions/123')
                 .set('Authorization', '123');
 
+            const { transactions } = TransactionMocks.USER.wallet;
+
             expect(res.status).to.equal(200);
             expect(res.body).to.have.property('message');
             expect(res.body.message).to.be.equal('Transaction deleted successfully');
-            expect(transactions).to.have.lengthOf(0);
+            expect(transactions).to.have.lengthOf(2);
         });
     });
 
@@ -237,7 +239,6 @@ describe('Transaction', () => {
         it('should update a transaction', async () => {
             sinon.stub(Model, 'findById').resolves(TransactionMocks.USER);
             sinon.stub(Array.prototype, 'findIndex').returns(0);
-            const { transactions } = TransactionMocks.USER.wallet;
 
             const res = await chai
                 .request(app)
@@ -245,10 +246,12 @@ describe('Transaction', () => {
                 .send(TransactionMocks.UPDATE_TRANSACTION)
                 .set('Authorization', '123');
 
+            const { transactions } = TransactionMocks.USER.wallet;
+
             expect(res.status).to.equal(200);
             expect(res.body).to.have.property('message');
             expect(res.body.message).to.be.equal('Transaction updated successfully');
-            expect(transactions).to.have.lengthOf(1);
+            expect(transactions).to.have.lengthOf(2);
         });
     });
 });

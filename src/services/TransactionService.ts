@@ -2,31 +2,22 @@ import { v4 } from 'uuid';
 import CustomError from '../helpers/CustomError';
 import Wallet from '../helpers/Wallet';
 import UserModel from '../models/UserModel';
-import { TTransaction, TUser, TWallet } from '../types';
+import { TTransaction, TWallet } from '../types';
 
 class TransactionService {
     public static async getTransactions(id: string) {
-        const user = await UserModel.findById(id);
-        if (!user) throw new CustomError('User not found', 404);
-        const { wallet: { transactions } } = user as TUser;
+        const user = await this.findUserById(id);
+        const { wallet: { transactions } } = user;
         return transactions;
     }
 
     public static async createTransaction(id: string, transaction: TTransaction) {
-        const user = await UserModel.findByIdAndUpdate(
-            id,
-            {
-                $push: { 'wallet.transactions': { id: v4(), ...transaction, date: new Date() } },
-                $inc: {
-                    'wallet.balance': transaction.type === 'income' ? transaction.value : -transaction.value,
-                    'wallet.income': transaction.type === 'income' ? transaction.value : 0,
-                    'wallet.outcome': transaction.type === 'outcome' ? transaction.value : 0,
-                },
-            },
-            { new: true },
-        );
-
-        if (!user) throw new CustomError('User not found', 404);
+        const user = await this.findUserById(id);
+        const { wallet: { transactions } } = user;
+        transactions.push({ id: v4(), ...transaction, date: new Date() });
+        user.markModified('wallet.transactions');
+        await user.save();
+        await Wallet.update(id);
     }
 
     public static async deleteTransaction(userId: string, transactionId: string) {
