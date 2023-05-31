@@ -12,7 +12,7 @@ All requests to the Cashflowr Server API require authentication. Authentication 
 
 To obtain a JWT token, clients must first authenticate using their email and password. The token should be included in the **Authorization** header of all subsequent requests.
 
-All requests that require authentication will return a **404 Not found** response if the Authorization header is missing or **401 Unauthorized** if the token is invalid.
+All requests that require authentication will return a **404 Not Found** response if the Authorization header is missing or **401 Unauthorized** if the token is invalid.
 
 <br />
 <br />
@@ -127,6 +127,35 @@ If successful, the server will respond with a status code of **201** and a JSON 
   "message": "Transaction created successfully"
 }
 ```
+
+<br />
+
+### `PUT /transactions/id`
+Update a transaction for the authenticated user. The request must include a valid access token in the Authorization header.
+
+The request body must include the following parameters in JSON format:
+```json
+{
+    "type": "income",
+    "description": "Salary",
+    "category": "Work",
+    "value": 1200
+}
+```
+
+If successful, the server will respond with a status code of **200** and a JSON object containing a message. The response will have the following format:
+```json
+{
+  "message": "Transaction updated successfully"
+}
+```
+
+Make sure that
+  - `id` is the transaction's id
+  - `type` is either "income" or "outcome"
+  - `description` has at least 3 characters
+  - `category` has at least 3 characters
+  - `value` is greater than 0
 
 <br />
 
