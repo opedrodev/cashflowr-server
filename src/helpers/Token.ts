@@ -1,9 +1,9 @@
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'jwt_secret';
 
 class Token {
-    public static create(id: string, rememberMe: boolean) {
+    public static create(id: string, rememberMe: boolean): string {
         return jwt.sign(
             { id },
             JWT_SECRET,
@@ -11,7 +11,7 @@ class Token {
         );
     }
 
-    public static verify(token: string) {
+    public static verify(token: string): string | JwtPayload {
         return jwt.verify(token, JWT_SECRET);
     }
 }

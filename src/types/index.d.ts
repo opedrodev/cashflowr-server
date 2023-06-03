@@ -1,3 +1,5 @@
+import { HydratedDocument } from 'mongoose';
+
 export type TTransactionType = 'income' | 'outcome';
 
 export type TTransaction = {
@@ -22,6 +24,8 @@ export type TUser = {
     password: string;
     wallet: TWallet;
 };
+
+export type UserDocument = HydratedDocument<TUser>;
 
 export type TSignIn = {
     email: string;

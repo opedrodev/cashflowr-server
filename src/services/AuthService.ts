@@ -2,7 +2,7 @@ import CustomError from '../helpers/CustomError';
 import Password from '../helpers/Password';
 import Token from '../helpers/Token';
 import UserModel from '../models/UserModel';
-import { TSignIn, TUser } from '../types';
+import { TSignIn, TUser, UserDocument } from '../types';
 
 class AuthService {
     public static async signUp(user: TUser) {
@@ -22,7 +22,7 @@ class AuthService {
         if (user) throw new CustomError('User already exists', 409);
     }
 
-    private static async findUserRegisteredByEmail(email: string) {
+    private static async findUserRegisteredByEmail(email: string): Promise<UserDocument> {
         const user = await UserModel.findOne({ email });
         if (!user) throw new CustomError('User does not exist', 404);
         return user;
