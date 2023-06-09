@@ -20,7 +20,7 @@ class App {
     private static database() {
         mongoose.connect(
             process.env.MONGODB_URL || 'mongodb://database:27017/cashflowr',
-            { useNewUrlParser: true } as ConnectOptions,
+            { useNewUrlParser: true, useUnifiedTopology: true } as ConnectOptions,
         );
     }
 
